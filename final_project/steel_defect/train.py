@@ -56,7 +56,10 @@ def setup_training(
     # ┌──────────────────────────────────────────────┐
     # │  TRAIN-1: Write your code below              │
     # └──────────────────────────────────────────────┘
-    raise NotImplementedError("TRAIN-1: Set up loss function and optimizer")
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
+    return criterion, optimizer
 
 
 def train_one_epoch(
@@ -108,7 +111,38 @@ def train_one_epoch(
     # ┌──────────────────────────────────────────────┐
     # │  TRAIN-2: Write your code below              │
     # └──────────────────────────────────────────────┘
-    raise NotImplementedError("TRAIN-2: Implement training epoch")
+    model.train()
+
+    running_loss = 0.0
+    correct = 0
+    total = 0
+
+    for images, labels in loader:
+        images = images.to(device)
+        labels = labels.to(device)
+
+        optimizer.zero_grad()
+
+        outputs = model(images)
+
+        loss = criterion(outputs, labels)
+
+        loss.backward()
+
+        optimizer.step()
+
+        running_loss += loss.item()
+
+        _, predicted = outputs.max(1)
+
+        total += labels.size(0)
+
+        correct += predicted.eq(labels).sum().item()
+
+    average_loss = running_loss / len(loader)
+    accuracy = correct / total
+
+    return average_loss, accuracy
 
 
 def validate(
@@ -143,7 +177,33 @@ def validate(
     # ┌──────────────────────────────────────────────┐
     # │  TRAIN-3: Write your code below              │
     # └──────────────────────────────────────────────┘
-    raise NotImplementedError("TRAIN-3: Implement validation epoch")
+    model.eval()
+
+    running_loss = 0.0
+    correct = 0
+    total = 0
+
+    with torch.no_grad():
+        for images, labels in loader:
+            images = images.to(device)
+            labels = labels.to(device)
+
+            outputs = model(images)
+
+            loss = criterion(outputs, labels)
+
+            running_loss += loss.item()
+
+            _, predicted = outputs.max(1)
+
+            total += labels.size(0)
+
+            correct += predicted.eq(labels).sum().item()
+
+    average_loss = running_loss / len(loader)
+    accuracy = correct / total
+
+    return average_loss, accuracy
 
 
 # ── Scaffold — main training loop ─────────────────────────────
@@ -238,8 +298,20 @@ def train(
         # │        logger.info("Saved best model ...")   │
         # └──────────────────────────────────────────────┘
         # TRAIN-4: Write your code below
-        pass  # Replace this with your checkpoint saving logic
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
 
+            checkpoint = {
+                "model_state_dict": model.state_dict(),
+                "optimizer_state_dict": optimizer.state_dict(),
+                "epoch": epoch,
+                "best_val_acc": best_val_acc,
+                "num_classes": NUM_CLASSES,
+    }
+
+            torch.save(checkpoint, CHECKPOINT_PATH)
+
+            logger.info("Saved best model to %s", CHECKPOINT_PATH)
     elapsed = time.time() - start_time
     logger.info("Training complete | time=%.1fs | best_val_acc=%.3f", elapsed, best_val_acc)
     return str(CHECKPOINT_PATH)
