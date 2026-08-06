@@ -17,6 +17,14 @@ nav:
   - Usage Guide: usage.md
   - Architecture: architecture.md
   - Advanced - Image Acquisition: advanced-acquisition.md
+  - Final Project:
+      - Overview: final_project/index.md
+      - Data Preprocessing: final_project/preprocessing.md
+      - Dataset: final_project/dataset.md
+      - Model Architecture: final_project/model.md
+      - Training: final_project/training.md
+      - Results & Inference: final_project/inference.md
+      - Challenges & Learnings: final_project/challenges.md
   - Homework:
     - Overview: homework/index.md
     - Step 1 - Preprocessing: homework/step-1-preprocessing.md
