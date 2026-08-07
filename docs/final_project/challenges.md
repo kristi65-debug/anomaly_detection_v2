@@ -5,7 +5,7 @@
 ## 1. Learning PyTorch and Deep Learning Workflow
 
 At the beginning of the project, understanding how all the parts of a deep learning project connect together was challenging. I learned how different components work together:
-Image Data → Preprocessing → Dataset → CNN Model → Training → Inference
+Image Data → Preprocessing → Dataset → CNN Model → Training → Inference.
 Building each part step by step helped me understand the complete workflow instead of only focusing on the final result.
 
 ## 2. Model Training and Computer Limitations

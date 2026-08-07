@@ -186,30 +186,8 @@ if val_acc > best_val_acc:
     logger.info("Training complete | time=%.1fs | best_val_acc=%.3f", elapsed, best_val_acc)
     return str(CHECKPOINT_PATH)
 
-# Training Configuration
-
-- Loss Function: CrossEntropyLoss
-- Optimizer: Adam
-- Learning Rate: 0.001
-- Image Size: 256 × 256 pixels
-- Number of Classes: 5
 
 
 
 
-# Training Results
 
-Include your final training results here after running the model.
-
-Example metrics to report:
-
-- Training Loss
-- Validation Loss
-- Training Accuracy
-- Validation Accuracy
-- Best Validation Accuracy
-- Number of Epochs
-
-
-# Summary
-The training stage teaches the CNN model to classify steel surface images by learning from labeled data. The model is evaluated after each epoch, and the best-performing version is saved for use during inference.
